@@ -40,7 +40,9 @@ issues with referencing widgets that are not sibling widgets in a relative layou
             android:id="@+id/image"
             android:layout_width="@dimen/cake_image_width"
             android:layout_height="@dimen/cake_image_height"
-            android:layout_below="@id/desc"/>
+            android:layout_below="@id/desc">
+        </ImageView>
+
 
     </RelativeLayout>
 

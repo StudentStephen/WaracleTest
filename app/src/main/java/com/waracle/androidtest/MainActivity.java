@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -52,6 +53,9 @@ import java.net.URL;
  * String resources, dimen resources were used as to conform to best practise in an effort to make
  * the code mroe extensible and scalable - meaning change in just one area rather than many
  * uses of hardcoded strings.
+ *
+ * In terms of HCI I added a progress bar whilst the initial data loads. I was tempted to do this
+ * for each image but it looked unsightly having 4 spinning wheels at one time, so left it out.
  *
  * Therefore I believe I have met the requires of:
  * Simple fixes for crash bug(s)
@@ -95,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-
     }
 
     @Override
@@ -128,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
      * Improve any performance issues - Done
      * Use good coding practices to make code more secure ---
      * I believe I have done. By implementing Loader callbacks, and specifically using JSONArray
-     * it removes the possibility that a developer make a mistake and use something else
+     * it removes the possibility that a developer make a mistake and use something else.
      */
     public static class PlaceholderFragment extends ListFragment implements LoaderManager.LoaderCallbacks<JSONArray> {
 
@@ -136,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
         //The List View
         private ListView mListView;
+        private ProgressBar mProgressBar;
         //The ImageLoader class
         private ImageLoader mImageLoader;
         //The Adapter for the List View
@@ -144,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         private Activity mActivity;
         //Loader ID
         private static final int HTTP_List_LOADER_ID = 0;
+
 
 
         /**
@@ -175,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
             //mListView was returning null - an issue with the ID not being found. Placed android.R
             //.id.list to correctly find the ID.
             mListView = (ListView) rootView.findViewById(android.R.id.list);
+            mProgressBar = (ProgressBar) rootView.findViewById(R.id.list_progress);
             return rootView;
         }
 
@@ -188,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
             //Initiate the loader that will run in the background to retrieve the information
             //from JSON to go into the List
             getLoaderManager().initLoader(HTTP_List_LOADER_ID, savedInstanceState, this);
+            mProgressBar.setVisibility(View.VISIBLE);
+
         }
 
         /**
@@ -321,8 +329,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onLoadFinished(Loader<JSONArray> loader, JSONArray data) {
             //When the load has finished, automatically create the adapter with the new information
+            mProgressBar.setVisibility(View.INVISIBLE);
             mAdapter = new MyAdapter(data);
             mListView.setAdapter(mAdapter);
+
         }
 
         @Override
