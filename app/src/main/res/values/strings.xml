@@ -2,4 +2,16 @@
     <string name="app_name">AndroidTest</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_refresh">Refresh</string>
+
+    <string name="cake_description_label">desc</string>
+    <string name="cake_image_label">image</string>
+    <string name="cake_title_label">title</string>
+
+    <string name="url_null">URL is empty!</string>
+
+    <string name="frag_key">cached</string>
+
+    <string name="request_prop">Content-Type</string>
+
+
 </resources>

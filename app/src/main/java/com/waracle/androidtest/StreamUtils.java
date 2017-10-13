@@ -14,6 +14,14 @@ public class StreamUtils {
     private static final String TAG = StreamUtils.class.getSimpleName();
 
     // Can you see what's wrong with this???
+    //I have been looking but it seems to make sense to me. The input stream is read until
+    //-1 is reached (the first empty space signalling the end) - given that the bytes could be of
+    //any size an Array List is used and converted to array when the size is known.
+    //
+    // Unless that is the problem where we don't have a safety check to make sure that the size
+    //of what is in the input stream is too big and could crash, or potentially harm the application
+    // or device. If that is the problem then a check could me bade to ensure the data is not above
+    // a certain number - also provides security.
     public static byte[] readUnknownFully(InputStream stream) throws IOException {
         // Read in stream of bytes
         ArrayList<Byte> data = new ArrayList<>();
